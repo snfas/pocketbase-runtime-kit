@@ -1,4 +1,4 @@
-ARG RUNTIME_IMAGE=ghcr.io/snfas/pocketbase-runtime-kit:0.1.0
+ARG RUNTIME_IMAGE=ghcr.io/snfas/pocketbase-runtime-kit:0.1.1
 
 FROM ${RUNTIME_IMAGE}
 

@@ -25,7 +25,7 @@ from the shared runtime image.
 Example app image:
 
 ```dockerfile
-ARG RUNTIME_IMAGE=ghcr.io/snfas/pocketbase-runtime-kit:0.1.0
+ARG RUNTIME_IMAGE=ghcr.io/snfas/pocketbase-runtime-kit:0.1.1
 
 FROM ${RUNTIME_IMAGE}
 
@@ -71,7 +71,7 @@ docker run --rm \
   -p 8090:8090 \
   --env-file .env \
   -v pocketbase_data:/pb_data \
-  ghcr.io/snfas/pocketbase-runtime-kit:0.1.0
+  ghcr.io/snfas/pocketbase-runtime-kit:0.1.1
 ```
 
 Useful runtime variables:
@@ -99,9 +99,9 @@ Build a runtime kit image with a different PocketBase binary:
 
 ```sh
 docker build runtime \
-  --build-arg KIT_VERSION=0.1.0 \
+  --build-arg KIT_VERSION=0.1.1 \
   --build-arg PB_VERSION=0.22.51 \
-  -t ghcr.io/snfas/pocketbase-runtime-kit:0.1.0
+  -t ghcr.io/snfas/pocketbase-runtime-kit:0.1.1
 ```
 
 ## Configuration from YAML

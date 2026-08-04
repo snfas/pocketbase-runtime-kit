@@ -1,7 +1,7 @@
 FROM alpine:3.20
 
 ARG PB_VERSION=0.22.6
-ARG KIT_VERSION=0.1.0
+ARG KIT_VERSION=0.1.1
 
 LABEL org.opencontainers.image.title="PocketBase Runtime Kit"
 LABEL org.opencontainers.image.description="Reusable PocketBase runtime with shared production hooks"

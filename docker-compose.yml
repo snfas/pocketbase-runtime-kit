@@ -3,9 +3,9 @@ services:
     build:
       context: runtime
       args:
-        KIT_VERSION: ${KIT_VERSION:-0.1.0}
+        KIT_VERSION: ${KIT_VERSION:-0.1.1}
         PB_VERSION: ${PB_VERSION:-0.22.6}
-    image: ghcr.io/snfas/pocketbase-runtime-kit:${KIT_VERSION:-0.1.0}
+    image: ghcr.io/snfas/pocketbase-runtime-kit:${KIT_VERSION:-0.1.1}
     pull_policy: build
     ports:
       - "${PB_PORT:-8090}:8090"
