@@ -1,0 +1,134 @@
+replicaCount: 1
+revisionHistoryLimit: 3
+
+image:
+  repository: ghcr.io/snfas/pocketbase-runtime-kit
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8090
+
+runtime:
+  environment: production
+  dev: false
+  http: 0.0.0.0:8090
+  origins: ""
+  automigrate: true
+  dataDir: /pb_data
+  encryptionEnv: PB_ENCRYPTION_KEY
+  extraArgs: ""
+
+settings:
+  meta:
+    appName: ""
+    appUrl: ""
+    senderName: ""
+    senderAddress: ""
+    hideControls: null
+  smtp:
+    enabled: null
+    host: ""
+    port: null
+    username: ""
+    password: ""
+    authMethod: ""
+    tls: null
+    localName: ""
+  storageS3:
+    enabled: null
+    bucket: ""
+    region: ""
+    endpoint: ""
+    accessKey: ""
+    secret: ""
+    forcePathStyle: null
+  backups:
+    cron: ""
+    cronMaxKeep: null
+    s3:
+      enabled: null
+      bucket: ""
+      region: ""
+      endpoint: ""
+      accessKey: ""
+      secret: ""
+      forcePathStyle: null
+
+env: {}
+
+secret:
+  create: false
+  existingSecret: ""
+  annotations: {}
+  data: {}
+  stringData: {}
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  size: 1Gi
+
+probes:
+  liveness:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readiness:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: pocketbase.example.test
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+extraVolumes: []
+extraVolumeMounts: []
+

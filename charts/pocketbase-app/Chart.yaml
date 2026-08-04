@@ -1,0 +1,14 @@
+apiVersion: v2
+name: pocketbase-app
+description: Reusable PocketBase StatefulSet chart for app-specific PocketBase images
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - pocketbase
+  - sqlite
+  - gitops
+sources:
+  - https://github.com/snfas/pocketbase-runtime-kit
+maintainers:
+  - name: SNFAS

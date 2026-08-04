@@ -1,0 +1,33 @@
+image:
+  repository: ghcr.io/example-org/example-pocketbase
+  tag: "1.0.0"
+
+secret:
+  existingSecret: example-pocketbase-secrets
+
+runtime:
+  origins: https://example.test
+
+settings:
+  meta:
+    appName: Example App
+    appUrl: https://pocketbase.example.test
+    senderName: Example App
+    senderAddress: noreply@example.test
+    hideControls: true
+  storageS3:
+    enabled: true
+    bucket: example-app
+    region: us-east-1
+    endpoint: http://minio.minio.svc.cluster.local:9000
+    forcePathStyle: true
+  backups:
+    cron: "0 3 * * *"
+    cronMaxKeep: 5
+    s3:
+      enabled: true
+      bucket: example-app
+      region: us-east-1
+      endpoint: http://minio.minio.svc.cluster.local:9000
+      forcePathStyle: true
+

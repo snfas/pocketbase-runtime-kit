@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "replicaCount": {
+      "type": "integer",
+      "const": 1,
+      "description": "PocketBase uses SQLite and should run as a single writable replica."
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "tag": { "type": "string" },
+        "pullPolicy": { "type": "string" }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "environment": { "type": "string" },
+        "dev": { "type": "boolean" },
+        "http": { "type": "string" },
+        "origins": { "type": "string" },
+        "automigrate": { "type": "boolean" },
+        "dataDir": { "type": "string" },
+        "encryptionEnv": { "type": "string" },
+        "extraArgs": { "type": "string" }
+      }
+    },
+    "secret": {
+      "type": "object",
+      "properties": {
+        "create": { "type": "boolean" },
+        "existingSecret": { "type": "string" },
+        "annotations": { "type": "object" },
+        "data": { "type": "object" },
+        "stringData": { "type": "object" }
+      }
+    },
+    "persistence": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "accessModes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "storageClassName": { "type": "string" },
+        "size": { "type": "string" }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "className": { "type": "string" },
+        "annotations": { "type": "object" },
+        "hosts": { "type": "array" },
+        "tls": { "type": "array" }
+      }
+    }
+  }
+}
+

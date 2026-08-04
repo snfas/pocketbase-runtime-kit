@@ -1,0 +1,8 @@
+PocketBase is exposed inside the cluster as:
+
+  {{ include "pocketbase-app.fullname" . }}:{{ .Values.service.port }}
+
+The chart deploys a single-replica StatefulSet. Keep PB_ENCRYPTION_KEY stable for
+an existing instance, and prefer app-specific images that copy only migrations
+and optional app hooks on top of the shared runtime image.
+

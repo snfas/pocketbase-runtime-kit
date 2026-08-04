@@ -1,0 +1,27 @@
+services:
+  pocketbase:
+    build:
+      context: runtime
+      args:
+        KIT_VERSION: ${KIT_VERSION:-0.1.0}
+        PB_VERSION: ${PB_VERSION:-0.22.6}
+    image: ghcr.io/snfas/pocketbase-runtime-kit:${KIT_VERSION:-0.1.0}
+    pull_policy: build
+    ports:
+      - "${PB_PORT:-8090}:8090"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PB_APP_ENV: ${PB_APP_ENV:-production}
+      PB_ENCRYPTION_KEY: ${PB_ENCRYPTION_KEY:-change-me-dev-only-32-byte-key-0000}
+      PB_META_APP_NAME: ${PB_META_APP_NAME:-PocketBase Runtime Kit}
+      PB_META_APP_URL: ${PB_META_APP_URL:-http://localhost:8090}
+      PB_META_HIDE_CONTROLS: ${PB_META_HIDE_CONTROLS:-true}
+      PB_STORAGE_S3_ENABLED: ${PB_STORAGE_S3_ENABLED:-false}
+      PB_BACKUPS_S3_ENABLED: ${PB_BACKUPS_S3_ENABLED:-false}
+    volumes:
+      - pocketbase_data:/pb_data
+
+volumes:
+  pocketbase_data:

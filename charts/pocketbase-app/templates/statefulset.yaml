@@ -1,0 +1,260 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "pocketbase-app.fullname" . }}
+  labels:
+    {{- include "pocketbase-app.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "pocketbase-app.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "pocketbase-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pocketbase-app.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "pocketbase-app.serviceAccountName" . }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pocketbase
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: PB_APP_ENV
+              value: {{ .Values.runtime.environment | quote }}
+            - name: PB_DEV
+              value: {{ .Values.runtime.dev | quote }}
+            - name: PB_HTTP
+              value: {{ .Values.runtime.http | quote }}
+            - name: PB_AUTOMIGRATE
+              value: {{ .Values.runtime.automigrate | quote }}
+            - name: PB_DATA_DIR
+              value: {{ .Values.runtime.dataDir | quote }}
+            - name: PB_ENCRYPTION_ENV
+              value: {{ .Values.runtime.encryptionEnv | quote }}
+            {{- with .Values.runtime.origins }}
+            - name: PB_ORIGINS
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.runtime.extraArgs }}
+            - name: PB_EXTRA_ARGS
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.meta.appName }}
+            - name: PB_META_APP_NAME
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.meta.appUrl }}
+            - name: PB_META_APP_URL
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.meta.senderName }}
+            - name: PB_META_SENDER_NAME
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.meta.senderAddress }}
+            - name: PB_META_SENDER_ADDRESS
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.meta.hideControls nil }}
+            - name: PB_META_HIDE_CONTROLS
+              value: {{ .Values.settings.meta.hideControls | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.smtp.enabled nil }}
+            - name: PB_SMTP_ENABLED
+              value: {{ .Values.settings.smtp.enabled | quote }}
+            {{- end }}
+            {{- with .Values.settings.smtp.host }}
+            - name: PB_SMTP_HOST
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.smtp.port nil }}
+            - name: PB_SMTP_PORT
+              value: {{ .Values.settings.smtp.port | quote }}
+            {{- end }}
+            {{- with .Values.settings.smtp.username }}
+            - name: PB_SMTP_USERNAME
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.smtp.password }}
+            - name: PB_SMTP_PASSWORD
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.smtp.authMethod }}
+            - name: PB_SMTP_AUTH_METHOD
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.smtp.tls nil }}
+            - name: PB_SMTP_TLS
+              value: {{ .Values.settings.smtp.tls | quote }}
+            {{- end }}
+            {{- with .Values.settings.smtp.localName }}
+            - name: PB_SMTP_LOCAL_NAME
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.storageS3.enabled nil }}
+            - name: PB_STORAGE_S3_ENABLED
+              value: {{ .Values.settings.storageS3.enabled | quote }}
+            {{- end }}
+            {{- with .Values.settings.storageS3.bucket }}
+            - name: PB_STORAGE_S3_BUCKET
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.storageS3.region }}
+            - name: PB_STORAGE_S3_REGION
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.storageS3.endpoint }}
+            - name: PB_STORAGE_S3_ENDPOINT
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.storageS3.accessKey }}
+            - name: PB_STORAGE_S3_ACCESS_KEY
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.storageS3.secret }}
+            - name: PB_STORAGE_S3_SECRET
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.storageS3.forcePathStyle nil }}
+            - name: PB_STORAGE_S3_FORCE_PATH_STYLE
+              value: {{ .Values.settings.storageS3.forcePathStyle | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.cron }}
+            - name: PB_BACKUPS_CRON
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.backups.cronMaxKeep nil }}
+            - name: PB_BACKUPS_CRON_MAX_KEEP
+              value: {{ .Values.settings.backups.cronMaxKeep | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.backups.s3.enabled nil }}
+            - name: PB_BACKUPS_S3_ENABLED
+              value: {{ .Values.settings.backups.s3.enabled | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.s3.bucket }}
+            - name: PB_BACKUPS_S3_BUCKET
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.s3.region }}
+            - name: PB_BACKUPS_S3_REGION
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.s3.endpoint }}
+            - name: PB_BACKUPS_S3_ENDPOINT
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.s3.accessKey }}
+            - name: PB_BACKUPS_S3_ACCESS_KEY
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.settings.backups.s3.secret }}
+            - name: PB_BACKUPS_S3_SECRET
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if ne .Values.settings.backups.s3.forcePathStyle nil }}
+            - name: PB_BACKUPS_S3_FORCE_PATH_STYLE
+              value: {{ .Values.settings.backups.s3.forcePathStyle | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- if or .Values.secret.create .Values.secret.existingSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ include "pocketbase-app.secretName" . }}
+          {{- end }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.probes.liveness.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
+          {{- end }}
+          {{- if .Values.probes.readiness.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /pb_data
+            - name: tmp
+              mountPath: /tmp
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        {{- if not .Values.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          {{- toYaml .Values.persistence.accessModes | nindent 10 }}
+        {{- with .Values.persistence.storageClassName }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+  {{- end }}

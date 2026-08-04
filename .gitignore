@@ -1,0 +1,23 @@
+.DS_Store
+
+# Local runtime data
+pb_data/
+pb_public/
+pb_hooks/.DS_Store
+pb_migrations/.DS_Store
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+*.tgz
+
+# Tool caches
+.cache/
+.tmp/
+tmp/
+
