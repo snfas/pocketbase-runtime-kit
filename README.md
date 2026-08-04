@@ -139,6 +139,76 @@ Secrets such as `PB_ENCRYPTION_KEY`, `PB_STORAGE_S3_ACCESS_KEY`,
 `PB_BACKUPS_S3_SECRET` should come from `secret.existingSecret` or your GitOps
 secret integration.
 
+## Hook environment variables
+
+The shared settings hook runs only when `PB_APP_ENV=production`. Empty variables
+are ignored, so an unset variable leaves the current PocketBase setting as-is.
+
+Boolean values accept `1`, `true`, `yes`, or `on`.
+
+### App metadata
+
+| Variable | Type | PocketBase setting |
+| --- | --- | --- |
+| `PB_META_APP_NAME` | string | `settings.meta.appName` |
+| `PB_META_APP_URL` | string | `settings.meta.appUrl` |
+| `PB_META_SENDER_NAME` | string | `settings.meta.senderName` |
+| `PB_META_SENDER_ADDRESS` | string | `settings.meta.senderAddress` |
+| `PB_META_HIDE_CONTROLS` | boolean | `settings.meta.hideControls` |
+
+### SMTP
+
+| Variable | Type | PocketBase setting |
+| --- | --- | --- |
+| `PB_SMTP_ENABLED` | boolean | `settings.smtp.enabled` |
+| `PB_SMTP_HOST` | string | `settings.smtp.host` |
+| `PB_SMTP_PORT` | integer | `settings.smtp.port` |
+| `PB_SMTP_USERNAME` | string | `settings.smtp.username` |
+| `PB_SMTP_PASSWORD` | string | `settings.smtp.password` |
+| `PB_SMTP_AUTH_METHOD` | string | `settings.smtp.authMethod` |
+| `PB_SMTP_TLS` | boolean | `settings.smtp.tls` |
+| `PB_SMTP_LOCAL_NAME` | string | `settings.smtp.localName` |
+
+### Uploaded file S3 storage
+
+| Variable | Type | PocketBase setting |
+| --- | --- | --- |
+| `PB_STORAGE_S3_ENABLED` | boolean | `settings.s3.enabled` |
+| `PB_STORAGE_S3_BUCKET` | string | `settings.s3.bucket` |
+| `PB_STORAGE_S3_REGION` | string | `settings.s3.region` |
+| `PB_STORAGE_S3_ENDPOINT` | string | `settings.s3.endpoint` |
+| `PB_STORAGE_S3_ACCESS_KEY` | string | `settings.s3.accessKey` |
+| `PB_STORAGE_S3_SECRET` | string | `settings.s3.secret` |
+| `PB_STORAGE_S3_FORCE_PATH_STYLE` | boolean | `settings.s3.forcePathStyle` |
+
+### Backups
+
+| Variable | Type | PocketBase setting |
+| --- | --- | --- |
+| `PB_BACKUPS_CRON` | string | `settings.backups.cron` |
+| `PB_BACKUPS_CRON_MAX_KEEP` | integer | `settings.backups.cronMaxKeep` |
+| `PB_BACKUPS_S3_ENABLED` | boolean | `settings.backups.s3.enabled` |
+| `PB_BACKUPS_S3_BUCKET` | string | `settings.backups.s3.bucket` |
+| `PB_BACKUPS_S3_REGION` | string | `settings.backups.s3.region` |
+| `PB_BACKUPS_S3_ENDPOINT` | string | `settings.backups.s3.endpoint` |
+| `PB_BACKUPS_S3_ACCESS_KEY` | string | `settings.backups.s3.accessKey` |
+| `PB_BACKUPS_S3_SECRET` | string | `settings.backups.s3.secret` |
+| `PB_BACKUPS_S3_FORCE_PATH_STYLE` | boolean | `settings.backups.s3.forcePathStyle` |
+
+### Production override switches
+
+These variables are read by the production guard hook. Leave them unset during
+normal production operation.
+
+| Variable | Required value | Effect |
+| --- | --- | --- |
+| `PB_ALLOW_COLLECTION_IMPORT` | `true` | Allows collection import and collection schema mutations through the Admin API. |
+| `PB_ALLOW_ADMIN_CONFIG_MUTATION` | `true` | Allows settings and backup mutations through the Admin API. |
+
+`PB_ENCRYPTION_KEY` is not applied by the hook, but it should be set whenever
+PocketBase is started with `--encryptionEnv PB_ENCRYPTION_KEY`. Keep it stable
+for existing instances because PocketBase uses it to decrypt encrypted settings.
+
 ## Helm chart
 
 Render the chart locally:
