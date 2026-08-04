@@ -14,6 +14,7 @@ services:
         required: false
     environment:
       PB_APP_ENV: ${PB_APP_ENV:-production}
+      PB_APPLY_SETTINGS_FROM_ENV: ${PB_APPLY_SETTINGS_FROM_ENV:-true}
       PB_ENCRYPTION_KEY: ${PB_ENCRYPTION_KEY:-change-me-dev-only-32-byte-key-0000}
       PB_META_APP_NAME: ${PB_META_APP_NAME:-PocketBase Runtime Kit}
       PB_META_APP_URL: ${PB_META_APP_URL:-http://localhost:8090}

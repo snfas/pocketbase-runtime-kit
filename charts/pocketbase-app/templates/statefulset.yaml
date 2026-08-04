@@ -43,6 +43,8 @@ spec:
           env:
             - name: PB_APP_ENV
               value: {{ .Values.runtime.environment | quote }}
+            - name: PB_APPLY_SETTINGS_FROM_ENV
+              value: {{ .Values.runtime.applySettingsFromEnv | quote }}
             - name: PB_DEV
               value: {{ .Values.runtime.dev | quote }}
             - name: PB_HTTP

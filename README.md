@@ -78,7 +78,8 @@ Useful runtime variables:
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `PB_APP_ENV` | `production` | Enables production-only hooks. |
+| `PB_APP_ENV` | `production` | Enables production-only guard hooks when set to `production`. |
+| `PB_APPLY_SETTINGS_FROM_ENV` | `true` | Applies supported PocketBase settings from environment variables unless set to `0`, `false`, `no`, or `off`. |
 | `PB_HTTP` | `0.0.0.0:8090` | PocketBase listen address. |
 | `PB_DATA_DIR` | `/pb_data` | Data directory. |
 | `PB_APP_HOOKS_DIR` | `/pbapp/pb_hooks` | Optional app hooks directory. |
@@ -141,8 +142,9 @@ secret integration.
 
 ## Hook environment variables
 
-The shared settings hook runs only when `PB_APP_ENV=production`. Empty variables
-are ignored, so an unset variable leaves the current PocketBase setting as-is.
+The shared settings hook runs by default in every environment. Set
+`PB_APPLY_SETTINGS_FROM_ENV=false` to disable it. Empty variables are ignored, so
+an unset variable leaves the current PocketBase setting as-is.
 
 Boolean values accept `1`, `true`, `yes`, or `on`.
 

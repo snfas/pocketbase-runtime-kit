@@ -1,5 +1,9 @@
 $app.onBeforeServe().add((e) => {
-  if ($os.getenv("PB_APP_ENV") !== "production") {
+  const shouldApply = !["0", "false", "no", "off"].includes(
+    $os.getenv("PB_APPLY_SETTINGS_FROM_ENV").toLowerCase(),
+  );
+
+  if (!shouldApply) {
     return;
   }
 
@@ -62,4 +66,3 @@ $app.onBeforeServe().add((e) => {
     console.warn("[settings-from-env] Failed to apply PocketBase settings from env:", err);
   }
 });
-
