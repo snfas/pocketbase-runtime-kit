@@ -26,9 +26,79 @@
         "origins": { "type": "string" },
         "automigrate": { "type": "boolean" },
         "dataDir": { "type": "string" },
+        "sharedHooksDir": { "type": "string" },
+        "appHooksDir": { "type": "string" },
+        "hooksDir": { "type": "string" },
+        "migrationsDir": { "type": "string" },
         "encryptionEnv": { "type": "string" },
-        "extraArgs": { "type": "string" }
+        "extraArgs": { "type": "string" },
+        "allowCollectionImport": { "type": "boolean" },
+        "allowAdminConfigMutation": { "type": "boolean" }
       }
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "appName": { "type": "string" },
+            "appUrl": { "type": "string" },
+            "senderName": { "type": "string" },
+            "senderAddress": { "type": "string" },
+            "hideControls": { "type": ["boolean", "null"] }
+          }
+        },
+        "smtp": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": ["boolean", "null"] },
+            "host": { "type": "string" },
+            "port": { "type": ["integer", "null"] },
+            "username": { "type": "string" },
+            "password": { "type": "string" },
+            "authMethod": { "type": "string" },
+            "tls": { "type": ["boolean", "null"] },
+            "localName": { "type": "string" }
+          }
+        },
+        "storageS3": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": ["boolean", "null"] },
+            "bucket": { "type": "string" },
+            "region": { "type": "string" },
+            "endpoint": { "type": "string" },
+            "accessKey": { "type": "string" },
+            "secret": { "type": "string" },
+            "forcePathStyle": { "type": ["boolean", "null"] }
+          }
+        },
+        "backups": {
+          "type": "object",
+          "properties": {
+            "cron": { "type": "string" },
+            "cronMaxKeep": { "type": ["integer", "null"] },
+            "s3": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": ["boolean", "null"] },
+                "bucket": { "type": "string" },
+                "region": { "type": "string" },
+                "endpoint": { "type": "string" },
+                "accessKey": { "type": "string" },
+                "secret": { "type": "string" },
+                "forcePathStyle": { "type": ["boolean", "null"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "env": {
+      "type": "object",
+      "description": "Additional application-specific environment variables; runtime kit variables have dedicated values.",
+      "additionalProperties": { "type": "string" }
     },
     "secret": {
       "type": "object",
@@ -36,8 +106,14 @@
         "create": { "type": "boolean" },
         "existingSecret": { "type": "string" },
         "annotations": { "type": "object" },
-        "data": { "type": "object" },
-        "stringData": { "type": "object" }
+        "data": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "stringData": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
       }
     },
     "persistence": {

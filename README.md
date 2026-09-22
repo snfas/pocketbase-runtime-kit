@@ -110,6 +110,13 @@ The chart keeps operational settings in Helm values, so Git-tracked YAML is the
 source of truth. The chart renders those values into environment variables, and
 the shared hook applies them to PocketBase settings on startup.
 
+Every environment variable consumed by the runtime kit has a corresponding
+chart value: startup options and hook controls are under `runtime.*`, while
+PocketBase application settings are under `settings.*`. The chart's `env` map
+is reserved for extra variables consumed by app-specific hooks. Runtime kit
+credentials such as `PB_ENCRYPTION_KEY` belong in `secret.stringData` or an
+existing Kubernetes Secret.
+
 ```yaml
 settings:
   meta:
@@ -206,6 +213,10 @@ normal production operation.
 | --- | --- | --- |
 | `PB_ALLOW_COLLECTION_IMPORT` | `true` | Allows collection import and collection schema mutations through the Admin API. |
 | `PB_ALLOW_ADMIN_CONFIG_MUTATION` | `true` | Allows settings and backup mutations through the Admin API. |
+
+Set these through `runtime.allowCollectionImport` and
+`runtime.allowAdminConfigMutation` when an override is needed; both default to
+`false`.
 
 `PB_ENCRYPTION_KEY` is not applied by the hook, but it should be set whenever
 PocketBase is started with `--encryptionEnv PB_ENCRYPTION_KEY`. Keep it stable

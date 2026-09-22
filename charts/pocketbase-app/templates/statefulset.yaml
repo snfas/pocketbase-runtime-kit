@@ -53,8 +53,20 @@ spec:
               value: {{ .Values.runtime.automigrate | quote }}
             - name: PB_DATA_DIR
               value: {{ .Values.runtime.dataDir | quote }}
+            - name: PB_SHARED_HOOKS_DIR
+              value: {{ .Values.runtime.sharedHooksDir | quote }}
+            - name: PB_APP_HOOKS_DIR
+              value: {{ .Values.runtime.appHooksDir | quote }}
+            - name: PB_HOOKS_DIR
+              value: {{ .Values.runtime.hooksDir | quote }}
+            - name: PB_MIGRATIONS_DIR
+              value: {{ .Values.runtime.migrationsDir | quote }}
             - name: PB_ENCRYPTION_ENV
               value: {{ .Values.runtime.encryptionEnv | quote }}
+            - name: PB_ALLOW_COLLECTION_IMPORT
+              value: {{ .Values.runtime.allowCollectionImport | quote }}
+            - name: PB_ALLOW_ADMIN_CONFIG_MUTATION
+              value: {{ .Values.runtime.allowAdminConfigMutation | quote }}
             {{- with .Values.runtime.origins }}
             - name: PB_ORIGINS
               value: {{ . | quote }}

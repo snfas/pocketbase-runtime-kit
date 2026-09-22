@@ -44,8 +44,14 @@ runtime:
   origins: ""
   automigrate: true
   dataDir: /pb_data
+  sharedHooksDir: /usr/local/share/pocketbase/pb_hooks
+  appHooksDir: /pbapp/pb_hooks
+  hooksDir: /tmp/pb_hooks
+  migrationsDir: /pbapp/pb_migrations
   encryptionEnv: PB_ENCRYPTION_KEY
   extraArgs: ""
+  allowCollectionImport: false
+  allowAdminConfigMutation: false
 
 settings:
   meta:
@@ -83,6 +89,8 @@ settings:
       secret: ""
       forcePathStyle: null
 
+# Additional application-specific environment variables. Runtime kit variables
+# should use the explicit runtime/settings values above. Put credentials in a Secret.
 env: {}
 
 secret:
