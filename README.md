@@ -287,13 +287,13 @@ without cloning this repository or authenticating to GHCR:
 ```sh
 helm install my-pocketbase \
   oci://ghcr.io/snfas/charts/pocketbase-app \
-  --version 0.1.1 \
+  --version 1.0.0 \
   --values values.yaml
 ```
 
 To inspect or download a release instead:
 
 ```sh
-helm show values oci://ghcr.io/snfas/charts/pocketbase-app --version 0.1.1
-helm pull oci://ghcr.io/snfas/charts/pocketbase-app --version 0.1.1
+helm show values oci://ghcr.io/snfas/charts/pocketbase-app --version 1.0.0
+helm pull oci://ghcr.io/snfas/charts/pocketbase-app --version 1.0.0
 ```

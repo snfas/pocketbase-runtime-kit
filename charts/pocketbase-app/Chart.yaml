@@ -2,8 +2,8 @@ apiVersion: v2
 name: pocketbase-app
 description: Reusable PocketBase StatefulSet chart for app-specific PocketBase images
 type: application
-version: 0.1.1
-appVersion: "0.1.1"
+version: 1.0.0
+appVersion: "1.0.0"
 keywords:
   - pocketbase
   - sqlite
