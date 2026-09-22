@@ -268,12 +268,32 @@ PB_ALLOW_ADMIN_CONFIG_MUTATION=true
 
 ## Publishing
 
-The `Publish Runtime Image` workflow builds `runtime/` and publishes to:
+The `Publish Runtime Image and Helm Chart` workflow builds `runtime/` and
+publishes the image to:
 
 ```text
 ghcr.io/snfas/pocketbase-runtime-kit
 ```
 
-It runs on pushes to `main`, tags matching `v*.*.*`, and manual dispatch. The
-published tag represents this runtime kit version, not the upstream PocketBase
-binary version.
+It also publishes `charts/pocketbase-app` to GHCR as an OCI Helm chart for tags
+matching `v*.*.*`. The release tag must match `version` in
+`charts/pocketbase-app/Chart.yaml`. The image tag represents this runtime kit
+version, not the upstream PocketBase binary version.
+
+After the first chart publish, change the `charts/pocketbase-app` package
+visibility to **Public** in GitHub Packages. Then users can install the chart
+without cloning this repository or authenticating to GHCR:
+
+```sh
+helm install my-pocketbase \
+  oci://ghcr.io/snfas/charts/pocketbase-app \
+  --version 0.1.1 \
+  --values values.yaml
+```
+
+To inspect or download a release instead:
+
+```sh
+helm show values oci://ghcr.io/snfas/charts/pocketbase-app --version 0.1.1
+helm pull oci://ghcr.io/snfas/charts/pocketbase-app --version 0.1.1
+```
